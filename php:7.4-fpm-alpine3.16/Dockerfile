@@ -6,12 +6,13 @@ RUN apk add --no-cache tzdata redis \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone
 
-# 安装 redis 扩展
-RUN docker-php-ext-install sockets \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+# 拷贝 redis.so 到扩展目录（请确保构建上下文有该文件）
+COPY cat/redis.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/redis.so
 
-# 拷贝 cat_hook.so 到扩展目录（请确保构建上下文有该文件）
+# 配置 redis.so 扩展
+COPY cat/configs/docker-php-ext-redis.ini /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
+
+# 拷贝 cat_hook.so 到扩展目录
 COPY cat/cat_hook.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/cat_hook.so
 
 # 配置 cat_hook.so 扩展
