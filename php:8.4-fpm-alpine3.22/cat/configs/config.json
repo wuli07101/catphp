@@ -1,0 +1,21 @@
+{
+    "shm_path": "/cat/cat_trace_shm",
+    "cat_servers": [
+        {"host": "192.168.3.159", "port": 2280}
+    ],
+    "batch_size": 1,
+    "poll_interval_ms": 5,
+    "retry_interval_seconds": 10,
+    "connection_timeout_seconds": 2,
+    "debug_mode": false,
+    "log_level": "info",
+    "process_workers": 1,
+    "send_workers": 1,
+    "process_queue_size": 200,
+    "send_queue_size": 500,
+    "license": {
+        "server_url": "https://lic.catphp.com",
+        "license_key": "LIC-B62E-7469-B840-3DDE-5E6F-EC97-D33A-3B44",
+        "retry_interval": "10s"
+    }
+}
