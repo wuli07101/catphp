@@ -6,25 +6,25 @@ RUN apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone
 
-# 拷贝 cat_hook.so 到扩展目录
-COPY cat/cat_hook.so /usr/local/lib/php/extensions/no-debug-non-zts-20240924/cat_hook.so
-
-# 配置 cat_hook.so 扩展
-COPY cat/configs/docker-php-ext-cat.ini /usr/local/etc/php/conf.d/docker-php-ext-cat.ini
-
-# 创建共享内存目录和文件
-RUN mkdir -p /cat \
+# 创建必要目录
+RUN mkdir -p /cat /app \
     && touch /cat/cat_trace_shm
 
-# 拷贝 cat-agent 可执行文件及配置
+# 拷贝所有文件
+COPY cat/cat_hook.so /usr/local/lib/php/extensions/no-debug-non-zts-20240924/cat_hook.so
+COPY ini/docker-php-ext-cat.ini /usr/local/etc/php/conf.d/docker-php-ext-cat.ini
 COPY cat/cat-agent /cat/cat-agent
 COPY cat/configs/config.json /cat/configs/config.json
+COPY start.sh /app/start.sh
 
-# 赋予 cat-agent 执行权限
-RUN chmod +x /cat/cat-agent
+# 赋予执行权限
+RUN chmod +x /cat/cat-agent /app/start.sh
 
-# 容器启动时仅启动 php-fpm，cat-agent 建议用 supervisor 或外部方式管理
-CMD ["php-fpm"]
+# 设置工作目录
+WORKDIR /app
+
+# 容器启动时启动 cat-agent 和 php-fpm
+CMD ["/app/start.sh"]
 
 # 端口（如有 web 访问需求）
 EXPOSE 9000 
