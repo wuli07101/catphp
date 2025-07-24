@@ -15,7 +15,7 @@
     "send_queue_size": 500,
     "license": {
         "server_url": "https://lic.catphp.com",
-        "license_key": "LIC-B62E-7469-B840-3DDE-5E6F-EC97-D33A-3B44",
+        "license_key": "LIC-DF2E-A660-C758-16DE-5668-6803-9222-F8DA",
         "retry_interval": "10s"
     }
 }
