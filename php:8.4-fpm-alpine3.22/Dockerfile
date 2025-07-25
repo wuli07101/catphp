@@ -1,6 +1,9 @@
 # 基础镜像
 FROM php:8.4-fpm-alpine3.22
 
+# 获取构建架构参数
+ARG TARGETARCH
+
 # 安装依赖
 RUN apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -10,11 +13,11 @@ RUN apk add --no-cache tzdata \
 RUN mkdir -p /cat /app \
     && touch /cat/cat_trace_shm
 
-# 拷贝所有文件
-COPY cat/cat_hook.so /usr/local/lib/php/extensions/no-debug-non-zts-20240924/cat_hook.so
-COPY ini/docker-php-ext-cat.ini /usr/local/etc/php/conf.d/docker-php-ext-cat.ini
-COPY cat/cat-agent /cat/cat-agent
+# 拷贝架构相关文件
+COPY cat/${TARGETARCH}/cat_hook.so /usr/local/lib/php/extensions/no-debug-non-zts-20240924/cat_hook.so
+COPY cat/${TARGETARCH}/cat-agent /cat/cat-agent
 COPY cat/configs/config.json /cat/configs/config.json
+COPY ini/docker-php-ext-cat.ini /usr/local/etc/php/conf.d/docker-php-ext-cat.ini
 COPY start.sh /app/start.sh
 
 # 赋予执行权限
