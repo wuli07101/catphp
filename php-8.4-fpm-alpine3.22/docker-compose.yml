@@ -1,0 +1,71 @@
+services:
+  # PHP FPM
+  php-fpm:
+    image: wuli07101/catphp-8.4-fpm-alpine3.22:1.0.0
+    container_name: catphp-8.4-fpm
+    restart: always
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - catphp
+    
+  # Nginx
+  nginx:
+    image: nginx:alpine
+    container_name: catphp-nginx
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php-fpm
+    networks:
+      - catphp
+  
+  # CAT 服务器 - MySQL 数据库
+  cat-mysql:
+    image: mysql:8.0
+    container_name: cat-mysql
+    restart: always
+    ports:
+       - 3306:3306
+    volumes:
+      - "./mysql_data:/var/lib/mysql"
+      - "./cat/dianping-cat/script/:/docker-entrypoint-initdb.d/"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: cat
+      MYSQL_DATABASE: cat
+      MYSQL_USER: cat
+      MYSQL_PASSWORD: cat
+      TZ: Asia/Shanghai
+    networks:
+      - catphp
+  
+  cat:
+    image: wuli07101/cat:v3.4.1
+    container_name: cat
+    restart: always
+    environment:
+      - MYSQL_URL=cat-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USERNAME=root
+      - MYSQL_PASSWD=cat
+      - MYSQL_SCHEMA=cat
+      # 必须设置成你的机器IP地址
+      # - SERVER_IP=YOUR IP
+    volumes:
+      - "./cat/dianping-cat/client.xml:/data/appdatas/cat/client.xml"
+    command: /bin/sh -c './datasources.sh && catalina.sh run'
+    depends_on:
+      - cat-mysql
+    ports:
+      - "8080:8080"
+      - "2280:2280"
+    networks: 
+      - catphp
+
+networks:
+  catphp:
+    driver: bridge

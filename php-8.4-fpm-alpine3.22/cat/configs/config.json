@@ -1,7 +1,7 @@
 {
     "shm_path": "/cat/cat_trace_shm",
     "cat_servers": [
-        {"host": "192.168.3.159", "port": 2280}
+        {"host": "cat-server", "port": 2280}
     ],
     "batch_size": 1,
     "poll_interval_ms": 5,

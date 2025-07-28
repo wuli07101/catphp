@@ -7,7 +7,7 @@ ARG TARGETARCH
 # 安装依赖
 RUN apk add --no-cache tzdata \
     && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" > /etc/timezone
+    && echo "Asia/Shanghai" > /etc/timezone 
 
 # 创建必要目录
 RUN mkdir -p /cat /app \
