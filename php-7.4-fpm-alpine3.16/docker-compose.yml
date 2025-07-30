@@ -25,7 +25,8 @@ services:
   
   # CAT 服务器 - MySQL 数据库
   cat-mysql:
-    image: mysql:8.0
+    image: mysql:5.7.37
+    # image: liupeng0518/mysql:5.7-arm64 #arm64使用
     container_name: cat-mysql
     restart: always
     ports:
@@ -43,8 +44,8 @@ services:
     networks:
       - catphp
   
-  cat:
-    image: wuli07101/cat:v3.4.1
+  cat-server:
+    image: meituaninc/cat:3.0.1
     container_name: cat
     restart: always
     environment:
