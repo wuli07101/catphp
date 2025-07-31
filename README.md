@@ -133,33 +133,11 @@ CAT 客户端配置文件位于 `cat/configs/config.json`：
 ## 🔍 故障排除
 
 ### 常见问题
-
-1. **CAT Agent 启动失败**
-   - 检查共享内存权限
-   - 查看日志：`docker logs <container-name>`
-
-2. **多架构支持问题**
-   - 确保 Docker 支持 buildx
-   - 检查镜像架构：`docker manifest inspect <image>`
-
-3. **端口冲突**
-   - PHP 7.4: 端口 8074
+1. **端口冲突**
+   - PHP 7.4: 端口 80
    - PHP 8.4: 端口 80
-   - CAT: 端口 8080
-
-## 🤝 贡献指南
-
-欢迎提交 Issue 和 Pull Request！
-
-1. Fork 项目
-2. 创建特性分支
-3. 提交更改
-4. 推送到分支
-5. 创建 Pull Request
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+   - CAT: 端口 8080、2280
+   - CAT-MYSQL: 端口 3306
 
 ## 🔗 相关链接
 
