@@ -112,17 +112,6 @@ CAT 客户端配置文件位于 `cat/configs/config.json`：
 - **cat-mysql**: CAT 数据库
 - **cat**: CAT 监控服务器
 
-## 🛠️ 自定义构建
-
-如果需要自定义构建镜像：
-
-```bash
-# 构建多架构镜像
-docker buildx build --platform linux/amd64,linux/arm64 \
-  -t your-registry/catphp-8.4-fpm:latest \
-  --push .
-```
-
 ## 📊 监控功能
 
 ### 支持的组件监控
